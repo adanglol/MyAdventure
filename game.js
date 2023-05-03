@@ -141,6 +141,17 @@ class Demo2 extends AdventureScene {
     }
 }
 
+// TO IMPLEMENT CLASS DEMO3 which is deserted island do logic with demo2
+
+
+
+
+
+
+
+
+
+
 class Menu extends Phaser.Scene {
     constructor() {
         super('Menu')
