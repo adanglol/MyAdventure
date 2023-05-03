@@ -17,6 +17,18 @@ Experience requirements:
 Asset sources:
 - (For each image/audio/video asset used, describe how it was created. What tool did you use to create it? Was it based on another work? If so, how did you change it, and where can we learn more about the original work for comparison? Use [Markdown link syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#links).)
 
+Audio : 
+Intro Cutscene
+[Markdown link syntax](https://freesound.org/people/MATRIXXX_/sounds/670700/)
+Was space atmosphere sound I turned up bass. Wanted emmersive feeling of isolation to set mood for player. 
+
+
+
+
+
+
+
 Code sources:
-- `adventure.js` and `index.html` were created for this project [Adam Smith](https://github.com/rndmcnlly) and edited by me.
-- `game.js` was sketched by [Adam Smith](https://github.com/rndmcnlly) and rewritten by me.
+- `adventure.js` and `index.html` were created for this project [Adam Smith](https://github.com/rndmcnlly) and edited by Aaron Dangc.
+- `game.js` was sketched by [Adam Smith](https://github.com/rndmcnlly) and rewritten by Aaron Dangc.
+
