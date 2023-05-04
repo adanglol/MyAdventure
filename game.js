@@ -9,28 +9,40 @@ class UnfamilarRoom extends AdventureScene {
     constructor() {
         super("UnfamilarRoom", "Unfamiliar room");
     }
+    preload() {
+        this.load.image('background', 'ASSETS/ENLARGE.png');
+    }
 
     onEnter() {
+        this.add.image(0, 0, "background").setOrigin(0, 0).setDisplaySize(this.w * .75, this.h);
+        let door = this.add.text(this.w * 0.06, this.w * 0.25, "🔒")
+        .setFontSize(this.s * 4)
+        .setPadding(this.s,this.s * 2)
+        .setInteractive()
+        .on('pointerover', () => {
+            if (this.hasItem("key")) {
+                this.showMessage("You've got the key for this door.");
+            } else {
+                this.showMessage("It's locked. Can you find a key?");
+            }
+        })
+        .on('pointerdown', () => {
+            if (this.hasItem("key")) {
+                this.loseItem("key");
+                this.showMessage("*squeak*");
+                door.setText("🔓");
+                this.gotoScene('Tunnel');
+            }
+        })
 
-        let clip = this.add.text(this.w * 0.3, this.w * 0.3, "📎 paperclip")
+        
+        
+        
+
+        let key = this.add.text(this.w * 0.5, this.w * 0.1, "🔑")
             .setFontSize(this.s * 2)
             .setInteractive()
-            .on('pointerover', () => this.showMessage("Metal, bent."))
-            .on('pointerdown', () => {
-                this.showMessage("No touching!");
-                this.tweens.add({
-                    targets: clip,
-                    x: '+=' + this.s,
-                    repeat: 2,
-                    yoyo: true,
-                    ease: 'Sine.inOut',
-                    duration: 100
-                });
-            });
-
-        let key = this.add.text(this.w * 0.5, this.w * 0.1, "🔑 key")
-            .setFontSize(this.s * 2)
-            .setInteractive()
+            .setPadding(this.s,this.s * 2)
             .on('pointerover', () => {
                 this.showMessage("It's a nice key.")
             })
@@ -45,25 +57,9 @@ class UnfamilarRoom extends AdventureScene {
                     onComplete: () => key.destroy()
                 });
             })
+        
 
-        let door = this.add.text(this.w * 0.1, this.w * 0.15, "🚪 Closet door")
-            .setFontSize(this.s * 2)
-            .setInteractive()
-            .on('pointerover', () => {
-                if (this.hasItem("key")) {
-                    this.showMessage("You've got the key for this door.");
-                } else {
-                    this.showMessage("It's locked. Can you find a key?");
-                }
-            })
-            .on('pointerdown', () => {
-                if (this.hasItem("key")) {
-                    this.loseItem("key");
-                    this.showMessage("*squeak*");
-                    door.setText("🚪 unlocked door");
-                    this.gotoScene('Tunnel');
-                }
-            })
+       
 
             let flashlight = this.add.text(this.w * 0.2, this.w * 0.5, "🔦 flashlight")
             .setFontSize(this.s * 2)
@@ -92,58 +88,54 @@ class Tunnel extends AdventureScene {
     constructor() {
         super("Tunnel", "Tunnel");
     }
-    onEnter() {
-        this.add.text(this.w * 0.3, this.w * 0.4, "just go back")
-            .setFontSize(this.s * 2)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("You've got no other choice, really.");
-            })
-            .on('pointerdown', () => {
-                this.gotoScene('Demo1');
-            });
-
-            let desertedEnt = this.add.text(this.w * 0.1, this.w * 0.1, "🚪Door")
-            .setFontSize(this.s * 2)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("It's a door. Looks like its been here for a while. Looks like it's unlocked.");
-            })
-            .on('pointerdown', () => {
-                this.showMessage("You open the door and walk through.");
-                this.gotoScene('DesertIsland');
-            });
-
-
-            
-            let waterEnt = this.add.text(this.w * 0.5, this.w * 0.1, "🚪 Hidden Door")
-            .setFontSize(this.s * 2)
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage("Looks like brining the flashlight was a good idea. Helping spot a hidden door.");
-            })
-            if (HasFlashlight == false) {
-                console.log("HasFlashlight is false")
-                waterEnt.alpha = 0;
-            }
-            
-
-
-
-        let finish = this.add.text(this.w * 0.6, this.w * 0.2, '(finish the game)')
-            .setInteractive()
-            .on('pointerover', () => {
-                this.showMessage('*giggles*');
-                this.tweens.add({
-                    targets: finish,
-                    x: this.s + (this.h - 2 * this.s) * Math.random(),
-                    y: this.s + (this.h - 2 * this.s) * Math.random(),
-                    ease: 'Sine.inOut',
-                    duration: 500
-                });
-            })
-            .on('pointerdown', () => this.gotoScene('outro'));
+    preload(){
+        this.load.image('Tunnel', 'ASSETS/TunnelBIG.png');
     }
+    onEnter() {
+        this.add.image(0, 0, "Tunnel").setOrigin(0, 0).setDisplaySize(this.w * .75, this.h);
+
+        let desertedEnt = this.add.text(this.w * 0.34, this.w * 0.3, "🚪")
+        .setFontSize(this.s * 4)
+        .setInteractive()
+        .on('pointerover', () => {
+            this.showMessage("It's a door. Looks like its been here for a while. Looks like it's unlocked.");
+        })
+        .on('pointerdown', () => {
+            this.showMessage("You open the door and walk through.");
+            this.gotoScene('DesertIsland');
+        });
+
+        let waterEnt = this.add.text(this.w * 0.5, this.w * 0.1, "🚪 Hidden Door")
+        .setFontSize(this.s * 2)
+        .setInteractive()
+        .on('pointerover', () => {
+            this.showMessage("Looks like brining the flashlight was a good idea. Helping spot a hidden door.");
+        })
+        .on('pointerdown', () => {
+            this.showMessage("You open the door and walk through.");
+            this.gotoScene('Pool');
+        })
+        if (HasFlashlight == false) {
+            console.log("HasFlashlight is false")
+            waterEnt.alpha = 0;
+        }
+            
+    }
+}
+
+class Pool extends AdventureScene {
+    constructor() {
+        super("Pool", "Pool");
+    }
+    onEnter() {
+
+        this.tweenText(this.add.text(this.w * 0.3, this.w * 0.4, "LOOKS LIKE ITS JUST A POOL"),2000)
+        // delay then go to next scene
+        this.time.delayedCall(7000, () => {
+            this.gotoScene('Tunnel');
+        })
+    }
+
 }
 
 // TO IMPLEMENT CLASS DEMO3 which is deserted island do logic with demo2
@@ -259,6 +251,10 @@ class BeastCreature extends AdventureScene {
     constructor() {
         super("BeastCreature", "Beast's Lair");
     }
+    preload() {
+        this.load.audio('shot', 'ASSETS/SHOT.WAV');
+        this.load.audio('death', 'ASSETS/SCREAM.ogg');
+    }
     onEnter() {
         const bigFoot = this.add.text(this.w * 0.3, this.w * 0.4, "👺")
         .setFontSize(this.s * 2)
@@ -277,16 +273,20 @@ class BeastCreature extends AdventureScene {
                     this.showMessage("You have 6 shots. Do you shoot?");
                 })
                 .on('pointerdown', () => {
-                    let roll = Math.floor( Math.random() * 6 ) + 1;
+                    this.sound.add('shot', { loop: false })
+                    this.sound.play('shot')
+                    let roll = 6; 
+                    // Math.floor( Math.random() * 6 ) + 1;
                     if (roll === 6){
+                        this.sound.add('death', { loop: false })
+                        this.sound.play('death')
                         this.showMessage("You shoot the creature in the head.You walk over to the creature and take the medallion. Tossing the gun as well");
                         this.gainItem('medallionHalfOne');
                         MedallionHalfOne = true;
                         this.loseItem('gun');
                         bigFoot.alpha = 0;
                         gun.alpha = 0;
-                        this.gotoScene('Plane'); // need to make this scene
-    
+                        this.gotoScene('DesertIsland'); // need to make this scene
                     } else {
                         gunAmmo--;
                         this.showMessage(`You missed you have ${gunAmmo} shots left. Thankfully the creature is occupied with the sound of the gunshot`)
@@ -333,7 +333,36 @@ class GrandGate extends AdventureScene {
         super("GrandGate", "Grand Gate");
     }
     onEnter() {
-        this.add.text(this.w * 0.3, this.w * 0.4, "GRANDNESS")
+        this.tweenText(this.add.text(this.w * 0.2, this.w * 0.1, "🚪DONE")
+        .setFontSize(this.s * 2)
+        .setInteractive()
+        .on('pointerover', () => {
+            this.showMessage("Guess this is only door left. What an adventure.");
+        })
+        .on('pointerdown', () => {
+            this.showMessage("You open the door and walk through. You are greeted by a bright light. You walk towards it. You are blinded by the light. You wake up in your bed. It was all a dream.");
+            this.gotoScene('Victory'); // need to make this scene
+        })
+        , 3000)
+        
+    }
+}
+
+class Victory extends AdventureScene {
+    constructor() {
+        super("Victory", "Victory");
+    }
+    onEnter() {
+        this.add.text(this.w * 0.3, this.w * 0.4, "All of it was a dream. But it was real. My adventure was.")
+        this.add.text(this.w * 0.3, this.w * 0.5, "Menu")
+        .setFontSize(this.s * 2)
+        .setInteractive()
+        .on('pointerover', () => {
+            this.showMessage("You won. Play again?");
+        })
+        .on('pointerdown', () => {
+            this.gotoScene('Menu');
+        });
     }
 }
 
@@ -358,7 +387,7 @@ class Menu extends Phaser.Scene {
         this.add.text(centerX -100 ,centerY +100, "Click anywhere to begin.").setFontSize(20);
         this.input.on('pointerdown', () => {
             this.cameras.main.fade(1000, 0,0,0);
-            this.time.delayedCall(1000, () => this.scene.start('DesertIsland'));
+            this.time.delayedCall(1000, () => this.scene.start('Intro'));
         });
     }
 }
@@ -423,7 +452,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Menu,Intro,UnfamilarRoom,Tunnel,DesertIsland,GrandGate,Plane,Forest,BeastCreature,GameOver,Outro],
+    scene: [Tunnel,UnfamilarRoom,Menu,Intro,DesertIsland,GrandGate,Plane,Forest,BeastCreature,GameOver,Victory,Pool,Outro],
     title: "Adventure Game",
 });
 
