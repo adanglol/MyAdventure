@@ -22,6 +22,7 @@ Intro Cutscene
 [Markdown link syntax](https://freesound.org/people/MATRIXXX_/sounds/670700/)
 Was space atmosphere sound I turned up bass. Wanted emmersive feeling of isolation to set mood for player. 
 
+Add Gun Sound
 
 
 
