@@ -447,7 +447,7 @@ class Intro extends Phaser.Scene {
         super('Intro');
     }
     preload() {
-        this.load.audio('intro', 'assets/INTRO.wav')
+        this.load.audio('intro', 'ASSETS/INTRO.wav')
 
     }
     create() {
