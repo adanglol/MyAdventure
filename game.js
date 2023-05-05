@@ -285,7 +285,7 @@ class BeastCreature extends AdventureScene {
         super("BeastCreature", "Beast's Lair");
     }
     preload() {
-        this.load.audio('shot', 'ASSETS/SHOT.WAV');
+        this.load.audio('shot', 'ASSETS/SHOT.wav');
         this.load.audio('death', 'ASSETS/SCREAM.ogg');
         this.load.image('BeastCreature', 'ASSETS/LAIRBIG.png');
 
