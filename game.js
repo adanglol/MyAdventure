@@ -105,8 +105,8 @@ class Tunnel extends AdventureScene {
             this.gotoScene('DesertIsland');
         });
 
-        let waterEnt = this.add.text(this.w * 0.5, this.w * 0.1, "🚪 Hidden Door")
-        .setFontSize(this.s * 2)
+        let waterEnt = this.add.text(this.w * 0.45, this.w * 0.3, "🚪")
+        .setFontSize(this.s * 4)
         .setInteractive()
         .on('pointerover', () => {
             this.showMessage("Looks like brining the flashlight was a good idea. Helping spot a hidden door.");
@@ -143,9 +143,16 @@ class DesertIsland extends AdventureScene {
     constructor() {
         super("DesertIsland", "Desert Island");
     }
+    preload(){
+        this.load.image('DesertIsland', 'ASSETS/DesertBIG.png');
+    }
     onEnter() {
-        const grandGateDoor = this.add.text(this.w * 0.1, this.w * 0.1, "🚪Grand Gate Door")
-        .setFontSize(this.s * 2)
+
+        this.add.image(0, 0, "DesertIsland").setOrigin(0, 0).setDisplaySize(this.w * .75, this.h);
+
+
+        const grandGateDoor = this.add.text(this.w * 0.6, this.w * 0.14, "🚪")
+        .setFontSize(this.s * 10)
         .setInteractive()
         .on('pointerover', () => {
             this.showMessage("Looks like a grand door. It's locked by some contrapcion needing some sort of medallion.");
@@ -160,8 +167,8 @@ class DesertIsland extends AdventureScene {
             }
         });
 
-        const plane = this.add.text(this.w * 0.5, this.w * 0.1, "🛩️ Plane")
-        .setFontSize(this.s * 2)
+        const plane = this.add.text(this.w * 0.55, this.w * 0.4, "🛩️")
+        .setFontSize(this.s * 4)
         .setInteractive()
         .on('pointerover', () => {
             this.showMessage("From afar it looks to be a plane. Think it has seen better days.");
@@ -171,8 +178,8 @@ class DesertIsland extends AdventureScene {
             this.gotoScene('Plane'); // need to make this scene
         });
 
-        const trail = this.add.text(this.w * 0.1, this.w * 0.5, "🌳 Trail")
-        .setFontSize(this.s * 2)
+        const trail = this.add.text(this.w * 0.1, this.w * 0.3, "🌳")
+        .setFontSize(this.s * 10)
         .setInteractive()
         .on('pointerover', () => {
             this.showMessage("Looks like a trail. It leads to a forest. Deeper into the island.");
@@ -182,6 +189,10 @@ class DesertIsland extends AdventureScene {
             this.gotoScene('Forest'); // need to make this scene
         });
 
+        if (MedallionHalfOne === true) {
+            trail.alpha = 0;
+        }
+
     }
 }
 
@@ -189,9 +200,14 @@ class Plane extends AdventureScene {
     constructor() {
         super("Plane", "Plane");
     }
+    preload(){
+        this.load.image('Plane', 'ASSETS/PlaneBIG.png');
+    }
     onEnter() {
-        const gun = this.add.text(this.w * 0.1, this.w * 0.1, "🔫 Revolver")
-        .setFontSize(this.s * 2)
+        this.add.image(0, 0, "Plane").setOrigin(0, 0).setDisplaySize(this.w * .75, this.h);
+      
+        const gun = this.add.text(this.w * 0.5, this.w * 0.35, "🔫")
+        .setFontSize(this.s * 5)
         .setInteractive()
         .on('pointerover', () => {
             this.showMessage("It's a Revolver. Looks like it's been here for a while. Looks like it's loaded with 6 shots.");
@@ -206,17 +222,20 @@ class Plane extends AdventureScene {
                 y: `-=${2 * this.s}`,
                 alpha: { from: 1, to: 0 },
                 duration: 500,
-                onComplete: () => gun.destroy()
+                onComplete: () =>{
+                    gun.destroy()
+                }
+                
             });
         });
-        if (MedallionHalfOne == true){
+        if (MedallionHalfOne == true || HasGun == true){
             gun.alpha = 0;
         }
 
 
 
-        this.add.text(this.w * 0.3, this.w * 0.4, "GO BACK")
-        .setFontSize(this.s * 2)
+        this.add.text(this.w * 0.05, this.w * 0.32, "GO BACK")
+        .setFontSize(this.s * 6)
         .setInteractive()
         .on('pointerover', () => {
             this.showMessage("You've got no other choice, really.");
@@ -232,10 +251,24 @@ class Forest extends AdventureScene {
     constructor() {
         super("Forest", "Forest");
     }
+    preload(){
+        this.load.image('Forest', 'ASSETS/Forest.png');
+    }
     onEnter() {
-        this.add.text(this.w * 0.3, this.w * 0.4, "WE ARE IN FURTHER")
-        this.add.text(this.w * 0.3, this.w * 0.5, "👺")
-        .setFontSize(this.s * 2)
+        this.add.image(0, 0, "Forest").setOrigin(0, 0).setDisplaySize(this.w * .75, this.h);
+        this.add.text(this.w * 0.05, this.w * 0.32, "GO BACK")
+        .setFontSize(this.s * 6)
+        .setInteractive()
+        .on('pointerover', () => {
+            this.showMessage("Maybe I should head back?");
+        })
+        .on('pointerdown', () => {
+            this.gotoScene('DesertIsland');
+        });
+
+        
+        this.add.text(this.w * 0.35, this.w * 0.25, "👹")
+        .setFontSize(this.s * 7)
         .setInteractive()
         .on('pointerover', () => {
             this.showMessage("You see a strange creature. It looks like it's holding something.");
@@ -254,10 +287,14 @@ class BeastCreature extends AdventureScene {
     preload() {
         this.load.audio('shot', 'ASSETS/SHOT.WAV');
         this.load.audio('death', 'ASSETS/SCREAM.ogg');
+        this.load.image('BeastCreature', 'ASSETS/LAIRBIG.png');
+
     }
     onEnter() {
-        const bigFoot = this.add.text(this.w * 0.3, this.w * 0.4, "👺")
-        .setFontSize(this.s * 2)
+        this.add.image(0, 0, "BeastCreature").setOrigin(0, 0).setDisplaySize(this.w * .75, this.h);
+        const bigFoot = this.add.text(this.w * 0.27, this.w * 0.35, "🪙")
+        .setFontSize(this.s * 5)
+        .setPadding(10)
         .setInteractive()
         .on('pointerover', () => {
             this.showMessage("As you approach the creature you can see it's holding a medallion. It looks like it's been broken in half.");
@@ -266,8 +303,8 @@ class BeastCreature extends AdventureScene {
             this.showMessage("Before long you end up stepping on a twig. The creature turns around and sees you. It starts to run towards you.");
             if(HasGun == true){
                 this.showMessage("Looks like you have a gun.")
-                const gun = this.add.text(this.w * 0.1, this.w * 0.1, "🔫")
-                .setFontSize(this.s * 2)
+                const gun = this.add.text(this.w * 0.5, this.w * 0.25, "🔫")
+                .setFontSize(this.s *6)
                 .setInteractive()
                 .on('pointerover', () => {
                     this.showMessage("You have 6 shots. Do you shoot?");
@@ -275,8 +312,7 @@ class BeastCreature extends AdventureScene {
                 .on('pointerdown', () => {
                     this.sound.add('shot', { loop: false })
                     this.sound.play('shot')
-                    let roll = 6; 
-                    // Math.floor( Math.random() * 6 ) + 1;
+                    let roll = Math.floor( Math.random() * 6 ) + 1; 
                     if (roll === 6){
                         this.sound.add('death', { loop: false })
                         this.sound.play('death')
@@ -312,8 +348,11 @@ class GameOver extends AdventureScene {
     constructor() {
         super("GameOver", "Game Over");
     }
+    preload() {
+        this.load.image('GameOver', 'ASSETS/gameoverBig.png');
+    }
     onEnter() {
-        this.add.text(this.w * 0.3, this.w * 0.4, "GAME OVER")
+        this.add.image(0, 0, "GameOver").setOrigin(0, 0).setDisplaySize(this.w * .75, this.h);
         this.add.text(this.w * 0.3, this.w * 0.5, "Play Again?")
         .setFontSize(this.s * 2)
         .setInteractive()
@@ -332,12 +371,17 @@ class GrandGate extends AdventureScene {
     constructor() {
         super("GrandGate", "Grand Gate");
     }
+    preload() {
+        this.load.image('GrandGate', 'ASSETS/GrandGateBig.png');
+    }
     onEnter() {
-        this.tweenText(this.add.text(this.w * 0.2, this.w * 0.1, "🚪DONE")
-        .setFontSize(this.s * 2)
+        this.add.image(0, 0, "GrandGate").setOrigin(0, 0).setDisplaySize(this.w * .75, this.h);
+        this.tweenText(this.add.text(this.w * 0.32, this.w * 0.3, "🪙")
+        .setPadding(10)
+        .setFontSize(this.s * 7)
         .setInteractive()
         .on('pointerover', () => {
-            this.showMessage("Guess this is only door left. What an adventure.");
+            this.showMessage("Guess this is only door left.");
         })
         .on('pointerdown', () => {
             this.showMessage("You open the door and walk through. You are greeted by a bright light. You walk towards it. You are blinded by the light. You wake up in your bed. It was all a dream.");
@@ -352,10 +396,16 @@ class Victory extends AdventureScene {
     constructor() {
         super("Victory", "Victory");
     }
+    preload() {
+        this.load.image('Victory', 'ASSETS/EndBig.png');
+    }
+
     onEnter() {
-        this.add.text(this.w * 0.3, this.w * 0.4, "All of it was a dream. But it was real. My adventure was.")
-        this.add.text(this.w * 0.3, this.w * 0.5, "Menu")
+        this.add.image(0, 0, "Victory").setOrigin(0, 0).setDisplaySize(this.w * .75, this.h);
+        this.add.text(this.w * 0.05, this.w * 0.02, "Looks like I made it out. For Now where am I?")
         .setFontSize(this.s * 2)
+        this.add.text(this.w * 0.35, this.w * 0.46, "Menu")
+        .setFontSize(this.s * 5)
         .setInteractive()
         .on('pointerover', () => {
             this.showMessage("You won. Play again?");
@@ -452,7 +502,7 @@ const game = new Phaser.Game({
         width: 1920,
         height: 1080
     },
-    scene: [Tunnel,UnfamilarRoom,Menu,Intro,DesertIsland,GrandGate,Plane,Forest,BeastCreature,GameOver,Victory,Pool,Outro],
+    scene: [Menu,BeastCreature,Forest,DesertIsland,Victory,GrandGate,Plane,UnfamilarRoom,Intro,Tunnel,GameOver,Pool,Outro],
     title: "Adventure Game",
 });
 
