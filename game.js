@@ -252,7 +252,7 @@ class Forest extends AdventureScene {
         super("Forest", "Forest");
     }
     preload(){
-        this.load.image('Forest', 'ASSETS/Forest.png');
+        this.load.image('Forest', 'ASSETS/FOREST.png');
     }
     onEnter() {
         this.add.image(0, 0, "Forest").setOrigin(0, 0).setDisplaySize(this.w * .75, this.h);
